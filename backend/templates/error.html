@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block title %}Error | FinForecast{% endblock %}
+
+{% block content %}
+<div class="text-center py-12">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 mx-auto text-red-500 mb-6" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+    </svg>
+    
+    <h1 class="text-4xl font-bold mb-4">Oops! Something went wrong</h1>
+    
+    <div class="max-w-lg mx-auto mb-8">
+        <p class="text-lg text-gray-600 mb-4">
+            We encountered an error while processing your request.
+        </p>
+        
+        {% if error %}
+        <div class="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
+            <p class="text-red-700 font-medium">{{ error }}</p>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="flex justify-center space-x-4">
+        <a href="/" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">
+            Return to Home
+        </a>
+        <button onclick="window.history.back();" class="bg-gray-200 text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300">
+            Go Back
+        </button>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,123 @@
+
+{% extends "base.html" %}
+
+{% block title %}FinForecast - Stock Price Prediction{% endblock %}
+
+{% block content %}
+<div class="text-center mb-12">
+    <h1 class="text-4xl font-bold mb-2">FinForecast</h1>
+    <p class="text-xl text-gray-600">Advanced Stock Price Prediction using Machine Learning</p>
+</div>
+
+<div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Search for a Stock</h2>
+    <form action="/analyze" method="post" class="flex flex-col md:flex-row gap-4">
+        <input type="text" name="symbol" id="stockSearch" placeholder="Enter stock symbol (e.g., RELIANCE.NS, AAPL)" 
+               class="flex-grow px-4 py-2 border rounded-md" required>
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700">
+            Analyze
+        </button>
+    </form>
+    <div id="searchResults" class="mt-2 bg-white border rounded-md shadow-sm hidden"></div>
+</div>
+
+<div class="mb-8">
+    <h2 class="text-2xl font-semibold mb-4">Popular Stocks</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {% for stock in stocks %}
+        <a href="/analyze?symbol={{ stock.symbol }}" class="block">
+            <div class="bg-white rounded-lg shadow-md p-4 transition-transform hover:scale-105">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="text-lg font-semibold">{{ stock.symbol }}</h3>
+                        <p class="text-gray-600">{{ stock.info.shortName }}</p>
+                    </div>
+                    {% if stock.info.get('lastPrice') %}
+                    <div class="text-right">
+                        <p class="text-lg font-bold">₹{{ "%.2f"|format(stock.info.lastPrice) }}</p>
+                        <p class="{% if stock.info.change > 0 %}text-green-600{% else %}text-red-600{% endif %}">
+                            {{ "%.2f"|format(stock.info.change) }} ({{ "%.2f"|format(stock.info.changePercent) }}%)
+                        </p>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mt-2 text-sm text-gray-600">
+                    <p>{{ stock.info.sector or 'N/A' }}</p>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="bg-blue-50 rounded-lg p-6">
+    <h2 class="text-2xl font-semibold mb-4">Why FinForecast?</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-xl font-semibold mb-2">Advanced AI Models</h3>
+            <p>Our prediction system combines multiple state-of-the-art AI algorithms for accurate forecasts</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-xl font-semibold mb-2">Technical Indicators</h3>
+            <p>Incorporates RSI, MACD, Moving Averages and other technical indicators for comprehensive analysis</p>
+        </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-xl font-semibold mb-2">Confidence Intervals</h3>
+            <p>Get prediction ranges to understand potential volatility and make informed decisions</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function() {
+        $('#stockSearch').on('input', function() {
+            const query = $(this).val();
+            if (query.length < 2) {
+                $('#searchResults').hide();
+                return;
+            }
+            
+            $.ajax({
+                url: '/stocks/available',
+                method: 'GET',
+                success: function(data) {
+                    const filteredStocks = data.stocks.filter(stock => 
+                        stock.symbol.toLowerCase().includes(query.toLowerCase()) || 
+                        stock.name.toLowerCase().includes(query.toLowerCase())
+                    ).slice(0, 10);
+                    
+                    if (filteredStocks.length > 0) {
+                        let html = '';
+                        filteredStocks.forEach(stock => {
+                            html += `<div class="p-2 hover:bg-gray-100 cursor-pointer stock-result" 
+                                         data-symbol="${stock.symbol}">
+                                         <div class="font-medium">${stock.symbol}</div>
+                                         <div class="text-sm text-gray-600">${stock.name}</div>
+                                     </div>`;
+                        });
+                        
+                        $('#searchResults').html(html).show();
+                        
+                        $('.stock-result').click(function() {
+                            const symbol = $(this).data('symbol');
+                            $('#stockSearch').val(symbol);
+                            $('#searchResults').hide();
+                        });
+                    } else {
+                        $('#searchResults').hide();
+                    }
+                }
+            });
+        });
+        
+        // Hide search results when clicking elsewhere
+        $(document).click(function(e) {
+            if (!$(e.target).closest('#stockSearch, #searchResults').length) {
+                $('#searchResults').hide();
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,92 @@
+
+{% extends "base.html" %}
+
+{% block title %}About FinForecast{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow-md p-8 mb-8">
+    <h1 class="text-3xl font-bold mb-6">About FinForecast</h1>
+    
+    <div class="prose max-w-none">
+        <p class="text-lg mb-6">
+            FinForecast is an advanced stock price prediction platform that uses sophisticated machine learning 
+            algorithms to forecast future stock prices with high accuracy. Our goal is to provide investors 
+            with reliable insights to make informed investment decisions.
+        </p>
+        
+        <h2 class="text-2xl font-semibold mb-4">Our Technology</h2>
+        
+        <p class="mb-4">
+            We employ a combination of deep learning and statistical models to analyze historical stock data 
+            and predict future price movements. Our technology stack includes:
+        </p>
+        
+        <ul class="list-disc pl-6 mb-6 space-y-2">
+            <li>
+                <strong>LSTM Neural Networks</strong> - Deep learning models that excel at capturing time-series patterns
+            </li>
+            <li>
+                <strong>Prophet Forecasting Model</strong> - Advanced time series decomposition model developed by Facebook
+            </li>
+            <li>
+                <strong>Ensemble Learning</strong> - Combines multiple models for improved accuracy and reliability
+            </li>
+            <li>
+                <strong>Technical Indicators</strong> - Incorporates RSI, MACD, Bollinger Bands, and other market signals
+            </li>
+        </ul>
+        
+        <h2 class="text-2xl font-semibold mb-4">How It Works</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <div class="border rounded-lg p-4">
+                <div class="text-center mb-2">
+                    <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 text-blue-600 font-bold text-xl">1</span>
+                </div>
+                <h3 class="text-xl font-medium text-center mb-2">Data Collection</h3>
+                <p class="text-gray-600">
+                    We gather comprehensive historical stock data including price, volume, and market indicators
+                </p>
+            </div>
+            
+            <div class="border rounded-lg p-4">
+                <div class="text-center mb-2">
+                    <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 text-blue-600 font-bold text-xl">2</span>
+                </div>
+                <h3 class="text-xl font-medium text-center mb-2">Analysis</h3>
+                <p class="text-gray-600">
+                    Our AI models process the data, identify patterns, and learn from historical price movements
+                </p>
+            </div>
+            
+            <div class="border rounded-lg p-4">
+                <div class="text-center mb-2">
+                    <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-100 text-blue-600 font-bold text-xl">3</span>
+                </div>
+                <h3 class="text-xl font-medium text-center mb-2">Prediction</h3>
+                <p class="text-gray-600">
+                    Generate accurate price forecasts with confidence intervals for informed decision making
+                </p>
+            </div>
+        </div>
+        
+        <h2 class="text-2xl font-semibold mb-4">Disclaimer</h2>
+        
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6">
+            <p class="text-yellow-700">
+                FinForecast provides predictions based on historical data and machine learning models. 
+                While we strive for accuracy, stock markets are influenced by numerous factors that cannot 
+                all be predicted. Our forecasts should be used as one of many tools in your investment strategy, 
+                not as the sole basis for financial decisions.
+            </p>
+        </div>
+        
+        <h2 class="text-2xl font-semibold mb-4">Contact Us</h2>
+        
+        <p>
+            For questions, feedback, or support, please contact us at:
+            <a href="mailto:support@finforecast.com" class="text-blue-600 hover:underline">support@finforecast.com</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
