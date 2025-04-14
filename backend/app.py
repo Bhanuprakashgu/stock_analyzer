@@ -399,16 +399,10 @@ def health_check():
     })
 
 if __name__ == '__main__':
-    # Create necessary directories for templates and static files
-    os.makedirs('backend/templates', exist_ok=True)
-    os.makedirs('backend/static', exist_ok=True)
-    os.makedirs('backend/static/css', exist_ok=True)
-    os.makedirs('backend/static/js', exist_ok=True)
-    
     # Start the background data updater thread
     updater_thread = threading.Thread(target=background_data_updater, daemon=True)
     updater_thread.start()
+    app.run(debug=True, port=5000)
     
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+
 
