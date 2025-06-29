@@ -1,5 +1,4 @@
-
-# FinForecast - Stock Price Prediction with Flask
+Stock Price Prediction 
 
 This is a Flask-based application for stock price prediction using machine learning. It uses a combination of LSTM neural networks and Prophet forecasting models to predict future stock prices.
 
