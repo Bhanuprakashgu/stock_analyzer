@@ -9,7 +9,7 @@ const MarketOverview = () => {
   const [isMarketOpen, setIsMarketOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
-  
+
   // Market indices 
   const [indices, setIndices] = useState({
     nifty: { value: 22416.28, change: 0.67, isUp: true },
@@ -17,36 +17,37 @@ const MarketOverview = () => {
     bankNifty: { value: 47892.45, change: -0.21, isUp: false },
     niftyIT: { value: 32648.10, change: 1.52, isUp: true },
   });
-  
+
   // Check if market is open
   useEffect(() => {
     const timer = setInterval(() => {
       const now = new Date();
       setCurrentTime(now);
-      
+
+      // Proper IST conversion using UTC offset
+      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+      const istDate = new Date(utc + 5.5 * 60 * 60 * 1000);
+
       // Indian market hours: 9:15 AM to 3:30 PM IST, Monday to Friday
-      const isWeekday = now.getDay() >= 1 && now.getDay() <= 5;
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      
-      // Convert to IST (UTC+5:30) - simplified approach
-      const istHours = (hours + 5) % 24;
-      const istMinutes = (minutes + 30) % 60;
-      
-      const isWithinMarketHours = 
-        (istHours > 9 || (istHours === 9 && istMinutes >= 15)) && 
+      const isWeekday = istDate.getDay() >= 1 && istDate.getDay() <= 5;
+      const istHours = istDate.getHours();
+      const istMinutes = istDate.getMinutes();
+
+      const isWithinMarketHours =
+        (istHours > 9 || (istHours === 9 && istMinutes >= 15)) &&
         (istHours < 15 || (istHours === 15 && istMinutes <= 30));
-      
+
       setIsMarketOpen(isWeekday && isWithinMarketHours);
     }, 1000);
-    
+
     // Simulate loading
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-    
+
     return () => clearInterval(timer);
   }, []);
+
   
   // Format time
   const formatTime = (date: Date) => {
