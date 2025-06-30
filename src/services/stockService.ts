@@ -6,8 +6,27 @@ const API_KEY = "XNRMOJT7UO6G1CX5";
 
 // Currency conversion rate (updated daily)
 // We'll fetch this dynamically, but use this as a fallback
-let USD_TO_INR = 82.5;
 
+const getUSDtoINRRate = async () => {
+  try {
+    const response = await axios.get('https://www.alphavantage.co/query', {
+      params: {
+        function: 'CURRENCY_EXCHANGE_RATE',
+        from_currency: 'USD',
+        to_currency: 'INR',
+        apikey: import.meta.env.VITE_ALPHA_VANTAGE_API_KEY,
+      }
+    });
+
+    const rate = response.data['Realtime Currency Exchange Rate']['5. Exchange Rate'];
+    return parseFloat(rate);
+  } catch (error) {
+    console.error("Error fetching exchange rate:", error);
+    return 83.30; // fallback value
+  }
+};
+
+const USD_TO_INR = await getUSDtoINRRate();
 // Indian NSE stock database
 export const INDIAN_STOCKS = [
   { symbol: "TCS.NS", name: "Tata Consultancy Services Ltd." },
