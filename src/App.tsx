@@ -8,7 +8,7 @@ import Dashboard from "./pages/Dashboard";
 import StockDetails from "./pages/StockDetails";
 import NotFound from "./pages/NotFound";
 import Layout from "./components/Layout";
-
+import AllStocks from "./pages/AllStocks";
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -30,6 +30,7 @@ const App = () => (
             <Route index element={<Dashboard />} />
             <Route path="stock/:symbol" element={<StockDetails />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/stocks" element={<AllStocks />} />
           </Route>
         </Routes>
       </BrowserRouter>
