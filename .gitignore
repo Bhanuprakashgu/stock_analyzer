@@ -18,7 +18,15 @@ dist-ssr
 .idea
 .DS_Store
 *.suo
-*.ntvs*
-*.njsproj
+# *.ntvs*
+# *.njsproj
 *.sln
 *.sw?
+
+# .gitignore
+venv/
+*.pyd
+*.dll
+*.h5
+*.ckpt
+__pycache__/
